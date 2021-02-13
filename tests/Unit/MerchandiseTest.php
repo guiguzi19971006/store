@@ -43,7 +43,7 @@ class MerchandiseTest extends TestCase
             'search-min-price-input' => 20000, 
             'search-max-price-input' => 40000, 
             'put-on-init-date' => '2020-07-01', 
-            'put-on-end-date' => ''
+            'put-on-end-date' => '2020-08-01'
         ]);
         $response->assertStatus(200);
     }

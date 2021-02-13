@@ -38,29 +38,7 @@ class MerchandiseController extends Controller
      *  @return View
      */
     public function show($id) {
-        $status = 0; // 回傳狀態碼
-        $retVal = ''; // 回傳訊息
-        $merchandise = [];
-
-        if ($status == 0) {
-            if (empty($id)) {
-                $retVal = '未指定商品編號!';
-                $status = -1;
-            }
-        }
-
-        if ($status == 0) {
-            $data = Merchandise::find($id); // 取得單一商品資訊
-            if (empty($data)) {
-                $retVal = '找不到此商品編號的商品!';
-                $status = -2;
-            }
-        }
-
-        if ($status == 0) {
-            $merchandise = $data;
-        }
-
+        $merchandise = Merchandise::find($id); // 取得單一商品資訊
         return view('merchandise', ['merchandise' => $merchandise]);
     }
     /**
