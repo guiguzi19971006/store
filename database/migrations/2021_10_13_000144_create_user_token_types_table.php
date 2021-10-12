@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserTokenTypeTable extends Migration
+class CreateUserTokenTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserTokenTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_token_type', function (Blueprint $table) {
+        Schema::create('user_token_types', function (Blueprint $table) {
             $table->id();
             $table->string('name', 10);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateUserTokenTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_token_type');
+        Schema::dropIfExists('user_token_types');
     }
 }
