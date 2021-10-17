@@ -23,16 +23,23 @@ class ProductService
             'remaining_qty' => 'regex:/^\d+$/', 
             'manufacture_date' => 'required|date|before:today', 
             'expiration_date' => 'required|date|after:today', 
-            'is_sellable' => 'regex:/^(Y|N)$/'
+            'is_sellable' => 'regex:/^[YN]{1}$/'
         ]);
-
+        // 驗證資料格式是否正確
         if ($validator->fails()) {
             return [
                 'code' => -1, 
                 'message' => '資料格式錯誤或未填寫!'
             ];
         }
-
+        // 確認是否已存在相同名稱之產品
+        if ($this->product_repository->product_exists($input['name'])) {
+            return [
+                'code' => -2, 
+                'message' => '已存在相同名稱之產品!'
+            ];
+        }
+        // 新增產品
         $this->product_repository->store($input);
 
         return [

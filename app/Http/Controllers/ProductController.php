@@ -14,6 +14,11 @@ class ProductController extends Controller
         $this->product_service = $product_service;
     }
 
+    public function create()
+    {
+        return view('admin.product.create');
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();

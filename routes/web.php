@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController;
 
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'product'], function () {
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
         Route::post('/', [ProductController::class, 'store'])->name('admin.product.store');
     });
 });

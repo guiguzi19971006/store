@@ -11,4 +11,10 @@ class ProductRepository
         $product_id = DB::table('products')->insertGetId($input);
         return $product_id;
     }
+
+    public function product_exists($product_name)
+    {
+        $product = DB::table('products')->where('name', $product_name)->first();
+        return empty($product) ? false : true;
+    }
 }
