@@ -9,14 +9,17 @@
 @section('content')
 <main class="m-3 p-3 text-center">
     <div class="container">
-        <form action="{{ route('admin.product.store') }}" method="post" id="create-product-form">
-            @csrf
+        <h4>新增產品</h4>
+        <form id="create-product-form">
             <div class="input-group">
                 <span class="input-group-text">
                     產品名稱
                 </span>
 
                 <input type="text" class="form-control" name="name" id="name">
+            </div>
+            <div class="name-error">
+                <div class="alert alert-danger"></div>
             </div>
 
             <div class="input-group">
@@ -26,9 +29,20 @@
 
                 <input type="number" class="form-control" name="price" id="price">
             </div>
+            <div class="price-error">
+                <div class="alert alert-danger"></div>
+            </div>
 
-            <label for="description">產品描述</label>
-            <textarea name="description" id="description" rows="5" class="form-control"></textarea>
+            <div class="input-group">
+                <span class="input-group-text">
+                    產品描述
+                </span>
+
+                <textarea name="description" id="description" rows="5" class="form-control"></textarea>
+            </div>
+            <div class="description-error">
+                <div class="alert alert-danger"></div>
+            </div>
 
             <div class="input-group">
                 <span class="input-group-text">
@@ -36,6 +50,9 @@
                 </span>
 
                 <input type="number" class="form-control" name="remaining_qty" id="remaining_qty">
+            </div>
+            <div class="remaining_qty-error">
+                <div class="alert alert-danger"></div>
             </div>
 
             <div class="input-group">
@@ -45,6 +62,9 @@
 
                 <input type="date" class="form-control" name="manufacture_date" id="manufacture_date">
             </div>
+            <div class="manufacture_date-error">
+                <div class="alert alert-danger"></div>
+            </div>
 
             <div class="input-group">
                 <span class="input-group-text">
@@ -53,12 +73,23 @@
 
                 <input type="date" class="form-control" name="expiration_date" id="expiration_date">
             </div>
+            <div class="expiration_date-error">
+                <div class="alert alert-danger"></div>
+            </div>
 
-            <label for="is_sellable" class="form-label">是否可販售</label>
-            <select name="is_sellable" id="is_sellable" class="form-select">
-                <option value="Y">是</option>
-                <option value="N">否</option>
-            </select>
+            <div class="input-group">
+                <span class="input-group-text">
+                    是否可販售
+                </span>
+
+                <select name="is_sellable" id="is_sellable" class="form-select">
+                    <option value="Y">是</option>
+                    <option value="N">否</option>
+                </select>
+            </div>
+            <div class="is_sellable-error">
+                <div class="alert alert-danger"></div>
+            </div>
 
             <a href="javascript: store();" class="btn btn-dark">新增產品</a>
         </form>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ProductService;
+use App\Http\Requests\ProductFormRequest;
 
 class ProductController extends Controller
 {
@@ -19,10 +20,10 @@ class ProductController extends Controller
         return view('admin.product.create');
     }
 
-    public function store(Request $request)
+    public function store(ProductFormRequest $request)
     {
-        $input = $request->all();
-        $result = $this->product_service->store($input);
+        $validated_data = $request->validated();
+        $result = $this->product_service->store($validated_data);
         return response()->json($result);
     }
 }
