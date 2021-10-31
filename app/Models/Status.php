@@ -10,6 +10,7 @@ class Status extends Model
     use HasFactory;
 
     protected $table = 'statuses';
+    protected $guarded = [];
 
     public function statusable() {
         return $this->morphTo();

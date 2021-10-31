@@ -10,6 +10,7 @@ class UserTokenType extends Model
     use HasFactory;
 
     protected $table = 'user_token_types';
+    protected $guarded = [];
 
     public function users() {
         return $this->belongsToMany(User::class);

@@ -10,6 +10,7 @@ class User extends Model
     use HasFactory;
 
     protected $table = 'users';
+    protected $guarded = [];
 
     public function orders() {
         return $this->hasMany(Order::class);

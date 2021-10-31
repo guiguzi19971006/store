@@ -10,6 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products';
+    protected $guarded = [];
 
     public function orders() {
         return $this->belongsToMany(Order::class);
