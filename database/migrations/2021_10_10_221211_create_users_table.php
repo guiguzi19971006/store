@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->char('gender', 1);
             $table->unsignedTinyInteger('age');
             $table->string('address', 100);
+            $table->string('type', 10)->default('user');
             $table->char('is_validated', 1)->default('N');
             $table->timestamps();
             $table->softDeletes();

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,10 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware('admin');
+    Route::post('/login_process', [AdminAuthController::class, 'login_process'])->name('admin.login_process')->withoutMiddleware('admin');
+    
     Route::group(['prefix' => 'product'], function () {
         Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
         Route::post('/', [ProductController::class, 'store'])->name('admin.product.store');
