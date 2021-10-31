@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use DB;
+use App\Models\Product;
 
 class ProductRepository
 {
     public function store($input)
     {
-        $product_id = DB::table('products')->insertGetId($input);
-        return $product_id;
+        $created_product = Product::create($input);
+        return $created_product;
     }
 
     public function product_exists($product_name)
     {
-        $product = DB::table('products')->where('name', $product_name)->first();
+        $product = Product::where('name', $product_name)->first();
         return empty($product) ? false : true;
     }
 }
