@@ -46,4 +46,15 @@ class AdminAuthController extends Controller
 
         return response()->json($response);
     }
+
+    public function logout_process(Request $request)
+    {
+        if (!$request->session()->has('admin')) {
+            return response()->json(['code' => -1, 'message' => '您尚未登入，無須登出!']);
+        }
+
+        $request->session()->forget('admin');
+
+        return response()->json(['code' => 0, 'message' => '您已成功登出!']);
+    }
 }

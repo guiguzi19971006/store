@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+    @inject('user_presenter', 'App\Presenters\UserPresenter')
+    
     @include('admin.components.nav')
 
     @yield('content')

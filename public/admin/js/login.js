@@ -20,7 +20,12 @@ function login()
                 }
             } else {
                 if (response.code == 0) {
-                    location.href = '/admin/index';
+                    alert(response.message);
+                    if ('referrer' in document) {
+                        location.href = document.referrer;
+                    } else {
+                        location.href = '/admin/index';
+                    }
                 }
             }
         }

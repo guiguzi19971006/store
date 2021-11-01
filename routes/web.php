@@ -18,6 +18,7 @@ use App\Http\Controllers\AdminAuthController;
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware('admin');
     Route::post('/login_process', [AdminAuthController::class, 'login_process'])->name('admin.login_process')->withoutMiddleware('admin');
+    Route::post('/logout_process', [AdminAuthController::class, 'logout_process'])->name('admin.logout_process')->withoutMiddleware('admin');
     
     Route::group(['prefix' => 'product'], function () {
         Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
