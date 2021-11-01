@@ -9,7 +9,7 @@
                 
             </ul>
             <div class="greeting-box">
-                {!! $user_presenter->user_login_greeting() !!}
+                {!! $user_presenter->user_login_greeting('admin') !!}
             </div>
         </div>
     </div>
