@@ -57,4 +57,11 @@ class AdminAuthController extends Controller
 
         return response()->json(['code' => 0, 'message' => '您已成功登出!']);
     }
+
+    public function generate_user_forget_password_token(Request $request)
+    {
+        $email = $request->input('email', '');
+        $response = $this->user_service->generate_user_tokens($email, UserService::USER_TOKEN_TYPES['forget_password']);
+        return response()->json($response);
+    }
 }
