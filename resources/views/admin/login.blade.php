@@ -27,7 +27,12 @@
                 </div>
             </div>
 
-            <a href="javascript: login();" class="btn btn-primary">登入</a>
+            <p>
+                <a href="javascript: login();" class="btn btn-primary">登入</a>
+            </p>
+            <p>
+                <a href="{{ route('admin.forget_password') }}">忘記密碼?</a>
+            </p>
         </form>
     </div>
 </main>

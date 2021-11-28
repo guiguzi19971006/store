@@ -58,10 +58,35 @@ class AdminAuthController extends Controller
         return response()->json(['code' => 0, 'message' => '您已成功登出!']);
     }
 
+    public function forget_password()
+    {
+        return view('admin.forget_password');
+    }
+
     public function generate_user_forget_password_token(Request $request)
     {
         $email = $request->input('email', '');
+
         $response = $this->user_service->generate_user_tokens($email, UserService::USER_TOKEN_TYPES['forget_password']);
+
+        if (!array_key_exists('errors', $response)) {
+            if ($request->session()->has('email_for_user_forget_password_token')) {
+                $request->session()->forget('email_for_user_forget_password_token');
+            }
+            $request->session()->put('email_for_user_forget_password_token', $email);
+        }
+        
         return response()->json($response);
+    }
+
+    public function reset_password(Request $request, $token)
+    {
+        $email = $request->session()->get('email_for_user_forget_password_token') ?? '';
+
+        if (!$this->user_service->verify_user_tokens($email, UserService::USER_TOKEN_TYPES['forget_password'], $token)) {
+            abort(404);
+        }
+
+        return view('admin.reset_password');
     }
 }

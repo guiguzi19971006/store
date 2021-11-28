@@ -49,7 +49,7 @@ class UserService
 
         if (empty($user)) {
             return [
-                'errors' => '該電子郵件未被使用!'
+                'errors' => ['email' => '您輸入的電子郵件錯誤或未被使用!']
             ];
         }
 
@@ -72,7 +72,8 @@ class UserService
 
         if (empty($user_token)) {
             return [
-                'errors' => '查無此使用者驗證碼!'
+                'code' => -1, 
+                'message' => '查無此使用者驗證碼!'
             ];
         }
 
@@ -82,5 +83,20 @@ class UserService
             'code' => 0, 
             'message' => '已寄發驗證碼至您的電子郵件!'
         ];
+    }
+
+    public function verify_user_tokens($email, $user_token_type_id, $content)
+    {
+        $user = $this->user_repository->get_user_by_email($email);
+
+        if (empty($user)) {
+            return false;
+        }
+
+        if (!$this->user_repository->user_token_exists($user->id, $user_token_type_id, $content)) {
+            return false;
+        }
+
+        return true;
     }
 }
