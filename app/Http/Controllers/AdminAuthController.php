@@ -67,7 +67,7 @@ class AdminAuthController extends Controller
     {
         $email = $request->input('email', '');
 
-        $response = $this->user_service->generate_user_tokens($email, UserService::USER_TOKEN_TYPES['forget_password']);
+        $response = $this->user_service->generate_user_token($email, UserService::USER_TOKEN_TYPES['forget_password']);
 
         if (!array_key_exists('errors', $response)) {
             if ($request->session()->has('email_for_user_forget_password_token')) {
@@ -83,7 +83,7 @@ class AdminAuthController extends Controller
     {
         $email = $request->session()->get('email_for_user_forget_password_token') ?? '';
 
-        if (!$this->user_service->verify_user_tokens($email, UserService::USER_TOKEN_TYPES['forget_password'], $token)) {
+        if (!$this->user_service->verify_user_token($email, UserService::USER_TOKEN_TYPES['forget_password'], $token)) {
             abort(404);
         }
 

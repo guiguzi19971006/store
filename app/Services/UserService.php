@@ -43,7 +43,7 @@ class UserService
         ];
     }
 
-    public function generate_user_tokens($email, $user_token_type_id)
+    public function generate_user_token($email, $user_token_type_id)
     {
         $user = $this->user_repository->get_user_by_email($email);
 
@@ -59,16 +59,26 @@ class UserService
             $user_token_content .= $seeds[rand(0, strlen($seeds) - 1)];
         }
 
-        $user_token_id = $this->user_repository->generate_user_tokens([
-            'user_id' => $user->id, 
-            'user_token_type_id' => $user_token_type_id, 
-            'content' => $user_token_content, 
-            'activated_time' => now(), 
-            'expiration_time' => now()->addMinutes(10), 
-            'created_at' => now(), 
-            'updated_at' => now()
-        ]);
-        $user_token = $this->user_repository->get_user_token_by_id($user_token_id);
+        if ($this->user_repository->user_token_exists($user->id, $user_token_type_id)) {
+            $affected_row_nums = $this->user_repository->update_user_token($user->id, $user_token_type_id, [
+                'content' => $user_token_content, 
+                'activated_time' => now(), 
+                'expiration_time' => now()->addMinutes(10), 
+                'updated_at' => now()
+            ]);
+        } else {
+            $user_token_id = $this->user_repository->generate_user_token([
+                'user_id' => $user->id, 
+                'user_token_type_id' => $user_token_type_id, 
+                'content' => $user_token_content, 
+                'activated_time' => now(), 
+                'expiration_time' => now()->addMinutes(10), 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ]);
+        }
+        
+        $user_token = $this->user_repository->get_user_token($user->id, $user_token_type_id);
 
         if (empty($user_token)) {
             return [
@@ -85,7 +95,7 @@ class UserService
         ];
     }
 
-    public function verify_user_tokens($email, $user_token_type_id, $content)
+    public function verify_user_token($email, $user_token_type_id, $content)
     {
         $user = $this->user_repository->get_user_by_email($email);
 
@@ -93,7 +103,7 @@ class UserService
             return false;
         }
 
-        if (!$this->user_repository->user_token_exists($user->id, $user_token_type_id, $content)) {
+        if (!$this->user_repository->user_token_validate($user->id, $user_token_type_id, $content)) {
             return false;
         }
 
