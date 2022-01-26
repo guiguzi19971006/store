@@ -6,15 +6,40 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function store($input)
+    /**
+     *  新增產品
+     * 
+     *  @param array $input
+     * 
+     *  @return mixed
+     */
+    public function store(array $input)
     {
-        $created_product = Product::create($input);
-        return $created_product;
+        return Product::create($input);
     }
-
-    public function product_exists($product_name)
+    /**
+     *  確認資料表中是否存在相同名稱之產品
+     * 
+     *  @param string $product_name
+     * 
+     *  @return bool
+     */
+    public function product_exists(string $product_name)
     {
         $product = Product::where('name', $product_name)->first();
         return empty($product) ? false : true;
+    }
+    /**
+     *  取得所有產品
+     * 
+     *  @param string $order_by
+     *  @param bool $ascending
+     * 
+     *  @return mixed
+     */
+    public function index(string $order_by = 'created_at', $ascending = true)
+    {
+        $ascending = $ascending === true ? 'asc' : 'desc';
+        return Product::orderBy($order_by, $ascending)->get();
     }
 }

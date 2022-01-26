@@ -7,18 +7,37 @@ use App\Services\UserService;
 
 class AdminAuthController extends Controller
 {
+    /**
+     *  @var \App\Services\UserService
+     */
     public $user_service;
-
+    /**
+     *  建立 \App\Services\UserService 實體
+     * 
+     *  @param \App\Services\UserService $user_service
+     * 
+     *  @return void
+     */
     public function __construct(UserService $user_service)
     {
         $this->user_service = $user_service;
     }
-
+    /**
+     *  管理者登入頁面
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function login()
     {
         return view('admin.login');
     }
-
+    /**
+     *  管理者登入
+     * 
+     *  @param \Illuminate\Http\Request $request
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
     public function login_process(Request $request)
     {
         $email = $request->input('email', '');
@@ -46,7 +65,13 @@ class AdminAuthController extends Controller
 
         return response()->json($response);
     }
-
+    /**
+     *  管理者登出
+     * 
+     *  @param \Illuminate\Http\Request $request
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
     public function logout_process(Request $request)
     {
         if (!$request->session()->has('admin')) {
@@ -57,12 +82,22 @@ class AdminAuthController extends Controller
 
         return response()->json(['code' => 0, 'message' => '您已成功登出!']);
     }
-
+    /**
+     *  管理者忘記密碼
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function forget_password()
     {
         return view('admin.forget_password');
     }
-
+    /**
+     *  產生忘記密碼 token
+     * 
+     *  @param \Illuminate\Http\Request $request
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
     public function generate_user_forget_password_token(Request $request)
     {
         $email = $request->input('email', '');
@@ -78,8 +113,15 @@ class AdminAuthController extends Controller
         
         return response()->json($response);
     }
-
-    public function reset_password(Request $request, $token)
+    /**
+     *  重設密碼頁面
+     * 
+     *  @param \Illuminate\Http\Request $request
+     *  @param string $token
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function reset_password(Request $request, string $token)
     {
         $email = $request->session()->get('email_for_user_forget_password_token') ?? '';
 

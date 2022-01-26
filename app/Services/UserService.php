@@ -4,23 +4,41 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use App\Mail\UserForgetPasswordToken;
-use Hash;
-use Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserService
 {
+    /**
+     *  @var array
+     */
     public const USER_TOKEN_TYPES = [
         'forget_password' => 1, 
         'register' => 2
     ];
+    /**
+     *  @var \App\Repositories\UserRepository $user_repository
+     */
     public $user_repository;
-
+    /**
+     *  建立 \App\Repositories\UserRepository 實體
+     * 
+     *  @param \App\Repositories\UserRepository $user_repository
+     * 
+     *  @return void
+     */
     public function __construct(UserRepository $user_repository)
     {
         $this->user_repository = $user_repository;
     }
-
-    public function user_login($input)
+    /**
+     *  使用者登入
+     * 
+     *  @param array $input
+     * 
+     *  @return array
+     */
+    public function user_login(array $input)
     {
         $user = $this->user_repository->get_user_by_email($input['email']);
 
@@ -42,8 +60,15 @@ class UserService
             'data' => $user
         ];
     }
-
-    public function generate_user_token($email, $user_token_type_id)
+    /**
+     *  產生使用者 token
+     * 
+     *  @param string $email
+     *  @param int $user_token_type_id
+     * 
+     *  @return array
+     */
+    public function generate_user_token(string $email, int $user_token_type_id)
     {
         $user = $this->user_repository->get_user_by_email($email);
 
@@ -94,8 +119,16 @@ class UserService
             'message' => '已寄發驗證碼至您的電子郵件!'
         ];
     }
-
-    public function verify_user_token($email, $user_token_type_id, $content)
+    /**
+     *  驗證使用者 token 是否有效
+     * 
+     *  @param string $email
+     *  @param int $user_token_type_id
+     *  @param string $content
+     * 
+     *  @return bool
+     */
+    public function verify_user_token(string $email, int $user_token_type_id, string $content)
     {
         $user = $this->user_repository->get_user_by_email($email);
 
