@@ -37,9 +37,9 @@ class ProductRepository
      * 
      *  @return mixed
      */
-    public function index(string $order_by = 'created_at', $ascending = true)
+    public function index(string $order_by, bool $ascending)
     {
-        $ascending = $ascending === true ? 'asc' : 'desc';
-        return Product::orderBy($order_by, $ascending)->get();
+        $sort_type = $ascending === true ? 'asc' : 'desc';
+        return Product::orderBy($order_by, $sort_type)->get();
     }
 }

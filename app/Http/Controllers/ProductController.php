@@ -52,6 +52,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        
+        $products = $this->product_service->index();
     }
 }
