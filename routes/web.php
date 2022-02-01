@@ -23,8 +23,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/generate_user_forget_password_token', [AdminAuthController::class, 'generate_user_forget_password_token'])->name('admin.generate_user_forget_password_token')->withoutMiddleware('admin');
     Route::get('/reset_password/{token}', [AdminAuthController::class, 'reset_password'])->name('admin.reset_password')->withoutMiddleware('admin');
     
-    Route::group(['prefix' => 'product'], function () {
-        Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
-        Route::post('/', [ProductController::class, 'store'])->name('admin.product.store');
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
+        Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
     });
 });

@@ -34,12 +34,13 @@ class ProductRepository
      * 
      *  @param string $order_by
      *  @param bool $ascending
+     *  @param int $row_nums
      * 
      *  @return mixed
      */
-    public function index(string $order_by, bool $ascending)
+    public function index(string $order_by, bool $ascending, int $row_nums)
     {
         $sort_type = $ascending === true ? 'asc' : 'desc';
-        return Product::orderBy($order_by, $sort_type)->get();
+        return Product::orderBy($order_by, $sort_type)->paginate($row_nums);
     }
 }

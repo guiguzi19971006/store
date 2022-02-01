@@ -50,11 +50,12 @@ class ProductService
      * 
      *  @param string $order_by
      *  @param bool $ascending
+     *  @param int $row_nums
      * 
      *  @return mixed
      */
-    public function index(string $order_by = 'created_at', bool $ascending = true)
+    public function index(string $order_by = 'created_at', bool $ascending = true, int $row_nums = 10)
     {
-        return $this->product_repository->index($order_by, $ascending);
+        return $this->product_repository->index($order_by, $ascending, $row_nums);
     }
 }

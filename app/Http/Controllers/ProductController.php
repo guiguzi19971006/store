@@ -42,8 +42,8 @@ class ProductController extends Controller
     public function store(ProductFormRequest $request)
     {
         $validated_data = $request->validated();
-        $result = $this->product_service->store($validated_data);
-        return response()->json($result);
+        $response = $this->product_service->store($validated_data);
+        return response()->json($response);
     }
     /**
      *  顯示所有產品頁面
@@ -53,5 +53,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->product_service->index();
+        return view('admin.product.index', ['products' => $products]);
     }
 }
