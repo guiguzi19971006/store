@@ -26,19 +26,25 @@
             </thead>
 
             <tbody>
-                @foreach ($products as $product)
+                @if ($products->isEmpty())
                 <tr>
-                    <td>{{ $product->id }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->price }}</td>
-                    <td>{{ $product->remaining_qty }}</td>
-                    <td>{{ $product->manufacture_date }}</td>
-                    <td>{{ $product->expiration_date }}</td>
-                    <td>{{ $product->is_sellable == 'Y' ? '可' : '不可' }}</td>
-                    <td>{{ $product->created_at }}</td>
-                    <td>{{ $product->updated_at }}</td>
+                    <td colspan="9">暫無產品!</td>
                 </tr>
-                @endforeach
+                @else
+                    @foreach ($products as $product)
+                    <tr>
+                        <td>{{ $product->id }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->remaining_qty }}</td>
+                        <td>{{ $product->manufacture_date }}</td>
+                        <td>{{ $product->expiration_date }}</td>
+                        <td>{{ $product->is_sellable == 'Y' ? '可' : '不可' }}</td>
+                        <td>{{ $product->created_at }}</td>
+                        <td>{{ $product->updated_at }}</td>
+                    </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
 
