@@ -40,8 +40,8 @@ class AdminAuthController extends Controller
      */
     public function login_process(Request $request)
     {
-        $email = $request->input('email', '');
-        $password = $request->input('password', '');
+        $email = $request->input('email') ?? '';
+        $password = $request->input('password') ?? '';
         $input = [
             'email' => $email, 
             'password' => $password
