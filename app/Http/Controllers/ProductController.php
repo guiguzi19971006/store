@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Requests\ProductFormRequest;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -54,5 +55,16 @@ class ProductController extends Controller
     {
         $products = $this->product_service->index();
         return view('admin.product.index', ['products' => $products]);
+    }
+    /**
+     *  顯示單一產品頁面
+     * 
+     *  @param \App\Models\Product $product
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function show(Product $product)
+    {
+        return view('admin.product.show', ['product' => $product]);
     }
 }
