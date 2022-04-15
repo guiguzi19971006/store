@@ -33,7 +33,7 @@
                 @else
                     @foreach ($products as $product)
                     <tr>
-                        <td>{{ $product->id }}</td>
+                        <td><a href="{{ route('admin.products.show', ['product' => $product]) }}">{{ $product->id }}</a></td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->remaining_qty }}</td>

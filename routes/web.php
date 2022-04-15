@@ -27,6 +27,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
         Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
         Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
-        Route::get('/{product}', [ProductController::class, 'show'])->name('admin.product.show');
+        Route::get('/{product}', [ProductController::class, 'show'])->name('admin.products.show');
     });
 });
