@@ -47,6 +47,17 @@ class ProductController extends Controller
         return response()->json($response);
     }
     /**
+     *  修改產品頁面
+     * 
+     *  @param \App\Models\Product
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit(Product $product)
+    {
+        return view('admin.product.edit', ['product' => $product]);
+    }
+    /**
      *  顯示所有產品頁面
      * 
      *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
