@@ -38,11 +38,6 @@
             </tr>
 
             <tr>
-                <th>編號</th>
-                <td>{{ $product->id }}</td>
-            </tr>
-
-            <tr>
                 <th>製造日期</th>
                 <td>{{ $product->manufacture_date }}</td>
             </tr>
@@ -67,6 +62,16 @@
                 <td>{{ $product->updated_at }}</td>
             </tr>
         </table>
+
+        <div class="row">
+            <div class="col-6">
+                <a href="{{ route('admin.products.index') }}" class="btn btn-success">回產品列表</a>
+            </div>
+
+            <div class="col-6">
+                <a href="{{ route('admin.products.edit', ['product' => $product]) }}" class="btn btn-warning">修改產品</a>
+            </div>
+        </div>
     </div>
 </main>
 @endsection
