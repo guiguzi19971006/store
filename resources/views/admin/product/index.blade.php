@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<main class="m-3 p-3">
+<main class="m-3 p-3 text-center">
     <div class="container">
         <h4>產品列表</h4>
         <table class="table table-striped">
@@ -49,6 +49,12 @@
         </table>
 
         {{ $products->links() }}
+
+        <div class="row">
+            <div class="col-12">
+                <a href="{{ route('admin.products.create') }}" class="btn btn-primary">新增產品</a>
+            </div>
+        </div>
     </div>
 </main>
 @endsection
