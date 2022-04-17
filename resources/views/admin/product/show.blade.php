@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<main class="m-3 p-3">
+<main class="m-3 p-3 text-center">
     <div class="container">
         <h4>產品介紹</h4>
 
