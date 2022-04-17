@@ -91,7 +91,15 @@
                 <div class="alert alert-danger"></div>
             </div>
 
-            <a href="javascript: store();" class="btn btn-dark">新增產品</a>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-success">回產品列表</a>
+                </div>
+
+                <div class="col-6">
+                    <a href="javascript: store();" class="btn btn-dark">新增產品</a>
+                </div>
+            </div>
         </form>
     </div>
 </main>
