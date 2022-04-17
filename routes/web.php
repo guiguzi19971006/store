@@ -29,5 +29,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
         Route::get('/{product}', [ProductController::class, 'show'])->name('admin.products.show');
         Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+        Route::patch('/{product}', [ProductController::class, 'update'])->name('admin.products.update');
     });
 });

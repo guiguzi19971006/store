@@ -58,6 +58,20 @@ class ProductController extends Controller
         return view('admin.product.edit', ['product' => $product]);
     }
     /**
+     *  修改產品
+     * 
+     *  @param \App\Http\Requests\ProductFormRequest $request
+     *  @param \App\Models\Product
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
+    public function update(ProductFormRequest $request, Product $product)
+    {
+        $validated_data = $request->validated();
+        $response = $this->product_service->update($validated_data, $product);
+        return response()->json($response);
+    }
+    /**
      *  顯示所有產品頁面
      * 
      *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory

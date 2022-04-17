@@ -18,6 +18,18 @@ class ProductRepository
         return Product::create($input);
     }
     /**
+     *  修改產品
+     * 
+     *  @param array $input
+     *  @param \App\Models\Product $product
+     * 
+     *  @return bool
+     */
+    public function update(array $input, Product $product)
+    {
+        return $product->update($input);
+    }
+    /**
      *  確認資料表中是否存在相同名稱之產品
      * 
      *  @param string $product_name

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Models\Product;
 
 class ProductService
 {
@@ -43,6 +44,24 @@ class ProductService
         return [
             'code' => 0, 
             'message' => '新增成功!'
+        ];
+    }
+    /**
+     *  修改產品
+     * 
+     *  @param array $input
+     *  @param \App\Models\Product $product
+     * 
+     *  @return array
+     */
+    public function update(array $input, Product $product)
+    {
+        // 修改產品
+        $this->product_repository->update($input, $product);
+
+        return [
+            'code' => 0, 
+            'message' => '修改成功!'
         ];
     }
     /**
