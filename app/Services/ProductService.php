@@ -56,8 +56,12 @@ class ProductService
      */
     public function update(array $input, Product $product)
     {
-        // 修改產品
-        $this->product_repository->update($input, $product);
+        if ($this->product_repository->update($input, $product) === false) {
+            return [
+                'code' => -1, 
+                'message' => '修改失敗!'
+            ];
+        }
 
         return [
             'code' => 0, 
