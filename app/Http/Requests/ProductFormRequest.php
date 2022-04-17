@@ -48,7 +48,7 @@ class ProductFormRequest extends FormRequest
             'description' => 'required', 
             'remaining_qty' => 'required|regex:/^\d+$/', 
             'manufacture_date' => 'required|date|before:today', 
-            'expiration_date' => 'required|date|after:today', 
+            'expiration_date' => 'required|date', 
             'is_sellable' => 'required|regex:/^[YN]{1}$/'
         ];
     }
@@ -73,7 +73,6 @@ class ProductFormRequest extends FormRequest
             'manufacture_date.before' => '產品製造日期須為今日之前', 
             'expiration_date.required' => '產品有效日期為必填欄位', 
             'expiration_date.date' => '產品有效日期須為 YYYY-MM-DD 之日期格式', 
-            'expiration_date.after' => '產品有效日期須為今日之後', 
             'is_sellable.required' => '產品可否販售為必填欄位', 
             'is_sellable.regex' => '產品可否販售須為 Y 或 N'
         ];
