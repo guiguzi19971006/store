@@ -14,7 +14,7 @@ function store()
     var expiration_date = document.getElementById('expiration_date');
     var is_sellable = document.getElementById('is_sellable');
     var response, xhr = new XMLHttpRequest();
-    xhr.open('POST', '/admin/product');
+    xhr.open('POST', '/admin/products');
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             response = JSON.parse(this.responseText);
