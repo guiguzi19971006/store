@@ -72,6 +72,18 @@ class ProductController extends Controller
         return response()->json($response);
     }
     /**
+     *  刪除產品
+     * 
+     *  @param \App\Models\Product $product
+     * 
+     *  @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Product $product)
+    {
+        $response = $this->product_service->destroy($product);
+        return response()->json($response);
+    }
+    /**
      *  顯示所有產品頁面
      * 
      *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory

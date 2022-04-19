@@ -69,6 +69,27 @@ class ProductService
         ];
     }
     /**
+     *  刪除產品
+     * 
+     *  @param \App\Models\Product $product
+     * 
+     *  @return array
+     */
+    public function destroy(Product $product)
+    {
+        if ($this->product_repository->destroy($product) === false) {
+            return [
+                'code' => -1, 
+                'message' => '刪除失敗!'
+            ];
+        }
+
+        return [
+            'code' => 0, 
+            'message' => '刪除成功!'
+        ];
+    }
+    /**
      *  取得所有產品
      * 
      *  @param string $order_by

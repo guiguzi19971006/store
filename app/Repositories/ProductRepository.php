@@ -30,6 +30,17 @@ class ProductRepository
         return $product->update($input);
     }
     /**
+     *  刪除產品
+     * 
+     *  @param \App\Models\Product $product
+     * 
+     *  @return bool|null
+     */
+    public function destroy(Product $product)
+    {
+        return $product->delete();
+    }
+    /**
      *  確認資料表中是否存在相同名稱之產品
      * 
      *  @param string $product_name
