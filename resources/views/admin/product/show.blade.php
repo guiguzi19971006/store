@@ -64,16 +64,43 @@
         </table>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <a href="{{ route('admin.products.index') }}" class="btn btn-success">回產品列表</a>
             </div>
 
-            <div class="col-6">
+            <div class="col-4">
                 <a href="{{ route('admin.products.edit', ['product' => $product]) }}" class="btn btn-warning">修改產品</a>
+            </div>
+
+            <div class="col-4">
+                <a href="javascript: destroy();" class="btn btn-danger">刪除產品</a>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+    function destroy()
+    {
+        if (confirm('確定刪除此產品?')) {
+            var _token = document.querySelector('meta[name="csrf-token"]');
+            var response, xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '{{ route("admin.products.destroy", ["product" => $product]) }}');
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(this.responseText);
+                    alert(response.message);
+                    if (response.code == 0) {
+                        location.href = '{{ route("admin.products.index") }}';
+                    }
+                }
+            };
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRF-TOKEN', _token.getAttribute('content'));
+            xhr.send();
+        }
+    }
+</script>
 @endsection
 
 @section('js')
