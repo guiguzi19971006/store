@@ -97,6 +97,8 @@
             };
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.setRequestHeader('X-CSRF-TOKEN', _token.getAttribute('content'));
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.setRequestHeader('Authorization', '{{ env("OAUTH_TOKEN_TYPE") . " " . env("OAUTH_ACCESS_TOKEN") }}');
             xhr.send();
         }
     }
