@@ -15,15 +15,15 @@ use App\Http\Controllers\AdminAuthController;
 |
 */
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'admin']], function () {
-    Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware(['auth:api', 'admin']);
-    Route::post('/login_process', [AdminAuthController::class, 'login_process'])->name('admin.login_process')->withoutMiddleware('admin');
-    Route::post('/logout_process', [AdminAuthController::class, 'logout_process'])->name('admin.logout_process')->withoutMiddleware('admin');
-    Route::get('/forget_password', [AdminAuthController::class, 'forget_password'])->name('admin.forget_password')->withoutMiddleware(['auth:api', 'admin']);
-    Route::post('/generate_user_forget_password_token', [AdminAuthController::class, 'generate_user_forget_password_token'])->name('admin.generate_user_forget_password_token')->withoutMiddleware('admin');
-    Route::get('/reset_password/{token}', [AdminAuthController::class, 'reset_password'])->name('admin.reset_password')->withoutMiddleware(['auth:api', 'admin']);
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
+    Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware('auth:api');
+    Route::post('/login_process', [AdminAuthController::class, 'login_process'])->name('admin.login_process');
+    Route::post('/logout_process', [AdminAuthController::class, 'logout_process'])->name('admin.logout_process');
+    Route::get('/forget_password', [AdminAuthController::class, 'forget_password'])->name('admin.forget_password')->withoutMiddleware('auth:api');
+    Route::post('/generate_user_forget_password_token', [AdminAuthController::class, 'generate_user_forget_password_token'])->name('admin.generate_user_forget_password_token');
+    Route::get('/reset_password/{token}', [AdminAuthController::class, 'reset_password'])->name('admin.reset_password')->withoutMiddleware('auth:api');
     
-    Route::group(['prefix' => 'products'], function () {
+    Route::group(['prefix' => 'products', 'middleware' => 'admin'], function () {
         Route::get('/', [ProductController::class, 'index'])->name('admin.products.index')->withoutMiddleware('auth:api');
         Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create')->withoutMiddleware('auth:api');
         Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
