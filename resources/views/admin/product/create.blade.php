@@ -13,6 +13,17 @@
         <form id="create-product-form">
             <div class="input-group">
                 <span class="input-group-text">
+                    產品相片
+                </span>
+
+                <input type="file" class="form-control" name="photo" id="photo">
+            </div>
+            <div class="photo-error">
+                <div class="alert alert-danger"></div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-text">
                     產品名稱
                 </span>
 
@@ -112,21 +123,23 @@
             document.querySelectorAll('div[class$="-error"]')[key].style.display = 'none';
         });
         // 表單欄位資料
-        var _token = document.querySelector('meta[name="csrf-token"]');
-        var name = document.getElementById('name');
-        var price = document.getElementById('price');
-        var description = document.getElementById('description');
-        var remaining_qty = document.getElementById('remaining_qty');
-        var manufacture_date = document.getElementById('manufacture_date');
-        var expiration_date = document.getElementById('expiration_date');
-        var is_sellable = document.getElementById('is_sellable');
-        var response, xhr = new XMLHttpRequest();
+        let create_product_form = document.getElementById('create-product-form');
+        let _token = document.querySelector('meta[name="csrf-token"]');
+        let photo = document.getElementById('photo');
+        let name = document.getElementById('name');
+        let price = document.getElementById('price');
+        let description = document.getElementById('description');
+        let remaining_qty = document.getElementById('remaining_qty');
+        let manufacture_date = document.getElementById('manufacture_date');
+        let expiration_date = document.getElementById('expiration_date');
+        let is_sellable = document.getElementById('is_sellable');
+        let response, form_data = new FormData(create_product_form), xhr = new XMLHttpRequest();
         xhr.open('POST', '{{ route("admin.products.store") }}');
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
                 if ('errors' in response) {
-                    for (var attr in response.errors) {
+                    for (let attr in response.errors) {
                         if (response.errors[attr].length > 0) {
                             document.querySelector('.' + attr + '-error').style.display = 'block';
                             document.querySelector('.' + attr + '-error>div').textContent = response.errors[attr][0];
@@ -140,11 +153,10 @@
                 }
             }
         };
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-CSRF-TOKEN', _token.getAttribute('content'));
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Authorization', '{{ env("OAUTH_TOKEN_TYPE") . " " . env("OAUTH_ACCESS_TOKEN") }}');
-        xhr.send('name=' + name.value + '&price=' + price.value + '&description=' + description.value + '&remaining_qty=' + remaining_qty.value + '&manufacture_date=' + manufacture_date.value + '&expiration_date=' + expiration_date.value + '&is_sellable=' + is_sellable.value);
+        xhr.send(form_data);
     }
 </script>
 @endsection

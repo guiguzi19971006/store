@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Repositories\PhotoRepository;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -12,15 +14,21 @@ class ProductService
      */
     public $product_repository;
     /**
-     *  建立 \App\Repositories\ProductRepository 實體
+     *  @var \App\Repositories\PhotoRepository
+     */
+    public $photo_repository;
+    /**
+     *  建立 \App\Repositories\ProductRepository 與 \App\Repositories\PhotoRepository 實體
      * 
      *  @param \App\Repositories\ProductRepository $product_repository
+     *  @param \App\Repositories\PhotoRepository $photo_repository
      * 
      *  @return void
      */
-    public function __construct(ProductRepository $product_repository)
+    public function __construct(ProductRepository $product_repository, PhotoRepository $photo_repository)
     {
         $this->product_repository = $product_repository;
+        $this->photo_repository = $photo_repository;
     }
     /**
      *  新增產品
@@ -38,8 +46,30 @@ class ProductService
                 'message' => '已存在相同名稱之產品!'
             ];
         }
+        // 確認 Storage 是否存在相同名稱之產品相片
+        $product_photo_path = 'product/' . $input['photo']->getClientOriginalName();
+        if (Storage::disk('photos')->exists($product_photo_path)) {
+            return [
+                'code' => -2, 
+                'message' => '已存在相同名稱之產品相片!'
+            ];
+        }
+        // 上傳產品相片
+        if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
+            return [
+                'code' => -3, 
+                'message' => '產品相片上傳失敗!'
+            ];
+        }
         // 新增產品
-        $this->product_repository->store($input);
+        unset($input['photo']);
+        $product = $this->product_repository->store($input);
+        // 新增產品相片
+        $this->photo_repository->store([
+            'imageable_type' => Product::class, 
+            'imageable_id' => $product->id, 
+            'path' => $product_photo_path
+        ]);
 
         return [
             'code' => 0, 
