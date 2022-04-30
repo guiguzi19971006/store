@@ -56,7 +56,7 @@ class ProductService
      */
     public function update(array $input, Product $product)
     {
-        if ($this->product_repository->update($input, $product) === false) {
+        if (!$this->product_repository->update($input, $product)) {
             return [
                 'code' => -1, 
                 'message' => '修改失敗!'
@@ -77,7 +77,7 @@ class ProductService
      */
     public function destroy(Product $product)
     {
-        if ($this->product_repository->destroy($product) === false) {
+        if (!$this->product_repository->destroy($product)) {
             return [
                 'code' => -1, 
                 'message' => '刪除失敗!'
