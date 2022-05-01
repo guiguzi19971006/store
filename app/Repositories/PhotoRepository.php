@@ -29,4 +29,16 @@ class PhotoRepository
     {
         return Photo::where('imageable_type', $imageable_type)->where('imageable_id', $imageable_id)->first();
     }
+    /**
+     *  確認資料表中是否存在相同相片
+     * 
+     *  @param string $imageable_type
+     *  @param string $path
+     * 
+     *  @return bool
+     */
+    public function photo_exists(string $imageable_type, string $path)
+    {
+        return Photo::where('imageable_type', $imageable_type)->where('path', $path)->get()->count() > 0;
+    }
 }
