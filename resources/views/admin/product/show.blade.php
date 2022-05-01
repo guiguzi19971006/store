@@ -18,6 +18,15 @@
             </tr>
 
             <tr>
+                <th>相片</th>
+                <td>
+                    @foreach ($photos as $photo)
+                    <img src="{{ route('download_file', ['path' => $photo->path]) }}" alt="{{ $product->name }}" width="50" height="50">
+                    @endforeach
+                </td>
+            </tr>
+
+            <tr>
                 <th>名稱</th>
                 <td>{{ $product->name }}</td>
             </tr>
