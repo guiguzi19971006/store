@@ -47,8 +47,9 @@ class ProductService
             ];
         }
         // 確認是否已存在相同名稱之產品相片
-        $product_photo_path = 'product/' . $input['photo']->getClientOriginalName();
-        if ($this->photo_repository->photo_exists(Product::class, $product_photo_path) || Storage::disk('photos')->exists($product_photo_path)) {
+        $product_photo_name = $input['photo']->getClientOriginalName();
+        $product_photo_path = 'product/' . $product_photo_name;
+        if ($this->photo_repository->photo_exists(Product::class, $product_photo_name) || Storage::disk('photos')->exists($product_photo_path)) {
             return [
                 'code' => -2, 
                 'message' => '已存在相同名稱之產品相片!'
@@ -68,7 +69,7 @@ class ProductService
         $this->photo_repository->store([
             'imageable_type' => Product::class, 
             'imageable_id' => $product->id, 
-            'path' => $product_photo_path
+            'path' => $product_photo_name
         ]);
 
         return [
