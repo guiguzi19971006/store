@@ -46,9 +46,9 @@ class ProductService
                 'message' => '已存在相同名稱之產品!'
             ];
         }
-        // 確認 Storage 是否存在相同名稱之產品相片
+        // 確認是否已存在相同名稱之產品相片
         $product_photo_path = 'product/' . $input['photo']->getClientOriginalName();
-        if (Storage::disk('photos')->exists($product_photo_path)) {
+        if ($this->photo_repository->photo_exists(Product::class, $product_photo_path) || Storage::disk('photos')->exists($product_photo_path)) {
             return [
                 'code' => -2, 
                 'message' => '已存在相同名稱之產品相片!'
