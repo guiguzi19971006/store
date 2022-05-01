@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\DownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use App\Http\Controllers\AdminAuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/download_file/{path}/{name?}', [DownloadController::class, 'download_file'])->name('download_file');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware('auth:api');
