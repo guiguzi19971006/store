@@ -17,12 +17,6 @@ class DownloadController extends Controller
      */
     public function download(string $path, ?string $name = null)
     {
-        $path = str_replace('\\', '/', $path);
-        // 預設下載檔案檔名為虛擬主機上的原始檔案檔名
-        if ($name === null) {
-            $name = strpos($path, '/') === false ? $path : substr(strrchr($path, '/'), 1);
-        }
-
         return response()->download($path, $name);
     }
 }
