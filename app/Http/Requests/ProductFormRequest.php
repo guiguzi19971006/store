@@ -43,7 +43,7 @@ class ProductFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'photo' => 'required|mimes:png,jpg,jpeg,gif|max:2048', 
+            'photo' => 'mimes:png,jpg,jpeg,gif|max:2048', 
             'name' => 'required|max:20', 
             'price' => 'required|regex:/^\d+$/', 
             'description' => 'required', 
@@ -62,7 +62,6 @@ class ProductFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'photo.required' => '產品相片為必填欄位', 
             'photo.mimes' => '產品相片允許格式: png, jpg, jpeg, gif', 
             'photo.max' => '產品相片最大限制: 2MB', 
             'name.required' => '產品名稱為必填欄位', 
