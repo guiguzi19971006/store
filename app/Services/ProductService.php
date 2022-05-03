@@ -46,21 +46,24 @@ class ProductService
                 'message' => '已存在相同名稱之產品!'
             ];
         }
-        // 確認是否已存在相同名稱之產品相片
-        $product_photo_name = $input['photo']->getClientOriginalName();
-        $product_photo_path = 'product/' . $product_photo_name;
-        if ($this->photo_repository->photo_exists(Product::class, $product_photo_name) || Storage::disk('photos')->exists($product_photo_path)) {
-            return [
-                'code' => -2, 
-                'message' => '已存在相同名稱之產品相片!'
-            ];
-        }
-        // 上傳產品相片
-        if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
-            return [
-                'code' => -3, 
-                'message' => '產品相片上傳失敗!'
-            ];
+
+        if (isset($input['photo'])) {
+            // 確認是否已存在相同名稱之產品相片
+            $product_photo_name = $input['photo']->getClientOriginalName();
+            $product_photo_path = 'product/' . $product_photo_name;
+            if ($this->photo_repository->photo_exists(Product::class, Storage::url('app/public/photos/' . $product_photo_path)) || Storage::disk('photos')->exists($product_photo_path)) {
+                return [
+                    'code' => -2, 
+                    'message' => '已存在相同名稱之產品相片!'
+                ];
+            }
+            // 上傳產品相片
+            if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
+                return [
+                    'code' => -3, 
+                    'message' => '產品相片上傳失敗!'
+                ];
+            }
         }
         // 新增產品
         unset($input['photo']);
@@ -69,7 +72,7 @@ class ProductService
         $this->photo_repository->store([
             'imageable_type' => Product::class, 
             'imageable_id' => $product->id, 
-            'path' => $product_photo_name
+            'path' => isset($product_photo_path) ? Storage::url('app/public/photos/' . $product_photo_path) : ''
         ]);
 
         return [
