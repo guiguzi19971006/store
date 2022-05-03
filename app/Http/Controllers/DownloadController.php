@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Storage;
 class DownloadController extends Controller
 {
     /**
-     *  下載指定檔案
+     *  下載檔案
      * 
      *  @param string $path
      *  @param string|null $name
      * 
      *  @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download_file(string $path, ?string $name = null)
+    public function download(string $path, ?string $name = null)
     {
         // 預設下載檔案檔名為虛擬主機上的原始檔案檔名
         if ($name === null) {
-            $name = substr(strrchr($path, '/'), 1);
+            $name = strpos($path, '/') === false ? substr(strrchr($path, '\\'), 1) : substr(strrchr($path, '/'), 1);
         }
 
-        return response()->download(Storage::disk('photos')->get('product/' . $path), $name);
+        return response()->download($path, $name);
     }
 }
