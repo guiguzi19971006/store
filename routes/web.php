@@ -16,7 +16,7 @@ use App\Http\Controllers\DownloadController;
 |
 */
 
-Route::get('/download_file/{path}/{name?}', [DownloadController::class, 'download_file'])->name('download_file');
+Route::get('/download/{path}/{name?}', [DownloadController::class, 'download'])->name('download');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     Route::get('/login', [AdminAuthController::class, 'login'])->name('admin.login')->withoutMiddleware('auth:api');
