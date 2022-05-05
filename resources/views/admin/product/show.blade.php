@@ -21,7 +21,7 @@
                 <th>相片</th>
                 <td>
                     @foreach ($photos as $photo)
-                    <img src="{{ route('download', ['path' => $photo->path]) }}" alt="{{ $product->name }}" width="50" height="50">
+                    <img src="{{ route('download', ['path' => ($prefix_path = dirname(dirname(dirname(__DIR__)))) . (strpos($prefix_path, '/') === false ? str_replace('/', '\\', $photo->path) : $photo->path)]) }}" alt="{{ $product->name }}" width="50" height="50">
                     @endforeach
                 </td>
             </tr>
