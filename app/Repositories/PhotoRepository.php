@@ -41,4 +41,16 @@ class PhotoRepository
     {
         return Photo::where('imageable_type', $imageable_type)->where('path', $path)->get()->count() > 0;
     }
+    /**
+     *  修改相片
+     * 
+     *  @param array $input
+     *  @param \App\Models\Photo $photo
+     * 
+     *  @return bool
+     */
+    public function update(array $input, Photo $photo)
+    {
+        return $photo->update($input);
+    }
 }
