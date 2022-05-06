@@ -55,7 +55,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.product.edit', ['product' => $product]);
+        return view('admin.product.edit', ['product' => $product, 'photos' => $product->photos]);
     }
     /**
      *  修改產品
