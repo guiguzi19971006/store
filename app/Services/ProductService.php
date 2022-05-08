@@ -58,7 +58,7 @@ class ProductService
                     'message' => '已存在相同名稱之產品相片!'
                 ];
             }
-            // 上傳產品相片
+            // 上傳產品相片檔案
             if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
                 return [
                     'code' => -3, 
@@ -110,14 +110,14 @@ class ProductService
                     'message' => '已存在相同名稱之產品相片!'
                 ];
             }
-            // 上傳產品相片
+            // 上傳新產品相片檔案
             if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
                 return [
                     'code' => -3, 
                     'message' => '產品相片上傳失敗!'
                 ];
             }
-            // 刪除原產品相片
+            // 刪除原產品相片檔案
             if (!empty($original_product_photo_path = $product->photos->first()->path)) {
                 Storage::disk('photos')->delete('product' . strrchr($original_product_photo_path, '/'));
             }
@@ -142,12 +142,19 @@ class ProductService
      */
     public function destroy(Product $product)
     {
-        if (!$this->product_repository->destroy($product)) {
-            return [
-                'code' => -1, 
-                'message' => '刪除失敗!'
-            ];
+        // 刪除產品相片檔案
+        if (!empty($product_photo_path = $product->photos->first()->path)) {
+            if (!Storage::disk('photos')->delete('product' . strrchr($product_photo_path, '/'))) {
+                return [
+                    'code' => -1, 
+                    'message' => '刪除產品相片失敗!'
+                ];
+            }
         }
+        // 刪除產品相片
+        $this->photo_repository->destroy($product->photos->first());
+        // 刪除產品
+        $this->product_repository->destroy($product);
 
         return [
             'code' => 0, 
