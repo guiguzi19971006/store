@@ -125,14 +125,6 @@
         // 表單欄位資料
         let create_product_form = document.getElementById('create-product-form');
         let _token = document.querySelector('meta[name="csrf-token"]');
-        let photo = document.getElementById('photo');
-        let name = document.getElementById('name');
-        let price = document.getElementById('price');
-        let description = document.getElementById('description');
-        let remaining_qty = document.getElementById('remaining_qty');
-        let manufacture_date = document.getElementById('manufacture_date');
-        let expiration_date = document.getElementById('expiration_date');
-        let is_sellable = document.getElementById('is_sellable');
         let response, form_data = new FormData(create_product_form), xhr = new XMLHttpRequest();
         xhr.open('POST', '{{ route("admin.products.store") }}');
         xhr.onreadystatechange = function () {
