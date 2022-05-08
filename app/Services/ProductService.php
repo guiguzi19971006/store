@@ -51,7 +51,8 @@ class ProductService
             // 確認是否已存在相同名稱之產品相片
             $product_photo_name = $input['photo']->getClientOriginalName();
             $product_photo_path = 'product/' . $product_photo_name;
-            if ($this->photo_repository->photo_exists(Product::class, Storage::url('app/public/photos/' . $product_photo_path)) || Storage::disk('photos')->exists($product_photo_path)) {
+            $product_photo_full_path = Storage::url('app/public/photos/' . $product_photo_path);
+            if ($this->photo_repository->photo_exists(Product::class, $product_photo_full_path) || Storage::disk('photos')->exists($product_photo_path)) {
                 return [
                     'code' => -2, 
                     'message' => '已存在相同名稱之產品相片!'
@@ -72,7 +73,7 @@ class ProductService
         $this->photo_repository->store([
             'imageable_type' => Product::class, 
             'imageable_id' => $product->id, 
-            'path' => isset($product_photo_path) ? Storage::url('app/public/photos/' . $product_photo_path) : ''
+            'path' => isset($product_photo_path) ? $product_photo_full_path : ''
         ]);
 
         return [
@@ -90,12 +91,42 @@ class ProductService
      */
     public function update(array $input, Product $product)
     {
-        if (!$this->product_repository->update($input, $product)) {
+        // 確認是否已存在相同名稱之產品
+        if ($input['name'] != $product->name && $this->product_repository->product_exists($input['name'])) {
             return [
                 'code' => -1, 
-                'message' => '修改失敗!'
+                'message' => '已存在相同名稱之產品!'
             ];
         }
+
+        if (isset($input['photo'])) {
+            // 確認是否已存在相同名稱之產品相片
+            $product_photo_name = $input['photo']->getClientOriginalName();
+            $product_photo_path = 'product/' . $product_photo_name;
+            $product_photo_full_path = Storage::url('app/public/photos/' . $product_photo_path);
+            if ($this->photo_repository->photo_exists(Product::class, $product_photo_full_path) || Storage::disk('photos')->exists($product_photo_path)) {
+                return [
+                    'code' => -2, 
+                    'message' => '已存在相同名稱之產品相片!'
+                ];
+            }
+            // 上傳產品相片
+            if (!Storage::disk('photos')->put($product_photo_path, $input['photo']->get())) {
+                return [
+                    'code' => -3, 
+                    'message' => '產品相片上傳失敗!'
+                ];
+            }
+            // 刪除原產品相片
+            if (!empty($original_product_photo_path = $product->photos->first()->path)) {
+                Storage::disk('photos')->delete('product' . strrchr($original_product_photo_path, '/'));
+            }
+            // 修改產品相片
+            $this->photo_repository->update(['path' => $product_photo_full_path], $product->photos->first());
+        }
+        // 修改產品
+        unset($input['photo']);
+        $this->product_repository->update($input, $product);
 
         return [
             'code' => 0, 
