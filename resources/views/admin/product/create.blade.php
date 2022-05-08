@@ -16,7 +16,7 @@
                     產品相片
                 </span>
 
-                <input type="file" class="form-control" name="photo" id="photo">
+                <input type="file" class="form-control-file" name="photo" id="photo">
             </div>
             <div class="photo-error">
                 <div class="alert alert-danger"></div>
