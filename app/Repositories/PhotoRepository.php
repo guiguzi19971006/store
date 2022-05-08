@@ -53,4 +53,15 @@ class PhotoRepository
     {
         return $photo->update($input);
     }
+    /**
+     *  刪除相片
+     * 
+     *  @param \App\Models\Photo $photo
+     * 
+     *  @return bool|null
+     */
+    public function destroy(Photo $photo)
+    {
+        return $photo->delete();
+    }
 }
