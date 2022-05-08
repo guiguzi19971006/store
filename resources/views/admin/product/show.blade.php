@@ -94,7 +94,7 @@
         if (confirm('確定刪除此產品?')) {
             var _token = document.querySelector('meta[name="csrf-token"]');
             var response, xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '{{ route("admin.products.destroy", ["product" => $product]) }}');
+            xhr.open('POST', '{{ route("admin.products.destroy", ["product" => $product]) }}');
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     response = JSON.parse(this.responseText);
@@ -108,7 +108,7 @@
             xhr.setRequestHeader('X-CSRF-TOKEN', _token.getAttribute('content'));
             xhr.setRequestHeader('Accept', 'application/json');
             xhr.setRequestHeader('Authorization', '{{ env("OAUTH_TOKEN_TYPE") . " " . env("OAUTH_ACCESS_TOKEN") }}');
-            xhr.send();
+            xhr.send('_method=DELETE');
         }
     }
 </script>
