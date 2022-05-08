@@ -17,8 +17,8 @@
                     產品相片
                 </span>
 
-                <img src="{{ route('download', ['path' => ($base_path = base_path()) . (strpos($base_path, '/') === false ? str_replace('/', '\\', $photos->first()->path) : $photos->first()->path)]) }}" alt="{{ $product->name }}" width="50" height="50">
-                <input type="file" class="form-control" name="photo" id="photo">
+                <img src="{{ route('download', ['path' => ($base_path = base_path()) . (strpos($base_path, '/') === false ? str_replace('/', '\\', $photos->first()->path) : $photos->first()->path)]) }}" alt="{{ $product->name }}" width="38" height="38">
+                <input type="file" class="form-control-file" name="photo" id="photo">
             </div>
             <div class="photo-error">
                 <div class="alert alert-danger"></div>
