@@ -14,6 +14,18 @@
         <form id="edit-product-form">
             <div class="input-group">
                 <span class="input-group-text">
+                    產品相片
+                </span>
+
+                <img src="{{ route('download', ['path' => ($base_path = base_path()) . (strpos($base_path, '/') === false ? str_replace('/', '\\', $photos->first()->path) : $photos->first()->path)]) }}" alt="{{ $product->name }}" width="50" height="50">
+                <input type="file" class="form-control" name="photo" id="photo">
+            </div>
+            <div class="photo-error">
+                <div class="alert alert-danger"></div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-text">
                     產品名稱
                 </span>
 
@@ -113,21 +125,16 @@
             document.querySelectorAll('div[class$="-error"]')[key].style.display = 'none';
         });
         // 表單欄位資料
-        var _token = document.querySelector('meta[name="csrf-token"]');
-        var name = document.getElementById('name');
-        var price = document.getElementById('price');
-        var description = document.getElementById('description');
-        var remaining_qty = document.getElementById('remaining_qty');
-        var manufacture_date = document.getElementById('manufacture_date');
-        var expiration_date = document.getElementById('expiration_date');
-        var is_sellable = document.getElementById('is_sellable');
-        var response, xhr = new XMLHttpRequest();
-        xhr.open('PATCH', '{{ route("admin.products.update", ["product" => $product]) }}');
+        let edit_product_form = document.getElementById('edit-product-form');
+        let _token = document.querySelector('meta[name="csrf-token"]');
+        let response, form_data = new FormData(edit_product_form), xhr = new XMLHttpRequest();
+        form_data.append('_method', 'PATCH');
+        xhr.open('POST', '{{ route("admin.products.update", ["product" => $product]) }}');
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
                 if ('errors' in response) {
-                    for (var attr in response.errors) {
+                    for (let attr in response.errors) {
                         if (response.errors[attr].length > 0) {
                             document.querySelector('.' + attr + '-error').style.display = 'block';
                             document.querySelector('.' + attr + '-error>div').textContent = response.errors[attr][0];
@@ -141,11 +148,10 @@
                 }
             }
         };
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-CSRF-TOKEN', _token.getAttribute('content'));
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Authorization', '{{ env("OAUTH_TOKEN_TYPE") . " " . env("OAUTH_ACCESS_TOKEN") }}');
-        xhr.send('name=' + name.value + '&price=' + price.value + '&description=' + description.value + '&remaining_qty=' + remaining_qty.value + '&manufacture_date=' + manufacture_date.value + '&expiration_date=' + expiration_date.value + '&is_sellable=' + is_sellable.value);
+        xhr.send(form_data);
     }
 </script>
 @endsection
