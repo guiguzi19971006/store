@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:api'], function () {
     Route::get('/reset_password/{token}', [AdminAuthController::class, 'reset_password'])->name('admin.reset_password')->withoutMiddleware('auth:api');
     
     Route::group(['prefix' => 'products', 'middleware' => 'admin'], function () {
+        Route::get('/search', [ProductController::class, 'search'])->name('admin.products.search')->withoutMiddleware('auth:api');
         Route::get('/', [ProductController::class, 'index'])->name('admin.products.index')->withoutMiddleware('auth:api');
         Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create')->withoutMiddleware('auth:api');
         Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
