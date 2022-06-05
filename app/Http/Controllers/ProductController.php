@@ -104,4 +104,17 @@ class ProductController extends Controller
     {
         return view('admin.product.show', ['product' => $product, 'photos' => $product->photos]);
     }
+    /**
+     *  搜尋產品頁面
+     * 
+     *  @param \Illuminate\Http\Request $request
+     * 
+     *  @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function search(Request $request)
+    {
+        $input = $request->all();
+        $products = $this->product_service->search($input);
+        return view('admin.product.search', ['products' => $products]);
+    }
 }

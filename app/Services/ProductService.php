@@ -174,4 +174,17 @@ class ProductService
     {
         return $this->product_repository->index($order_by, $ascending, $row_nums);
     }
+    /**
+     *  搜尋產品
+     * 
+     *  @param array $input
+     *  @param string $order_by
+     *  @param bool $ascending
+     * 
+     *  @return mixed
+     */
+    public function search(array $input, string $order_by = 'created_at', bool $ascending = true)
+    {
+        return $this->product_repository->search($input, $order_by, $ascending);
+    }
 }
